@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\NavigationRequest;
 use App\Models\Navigation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Blade;
 use Spatie\Permission\Models\Permission;
 class NavigationController extends Controller
 {
@@ -22,9 +23,10 @@ class NavigationController extends Controller
             abort(403);
         }
         // set page title
-        $data['pageTitle'] = 'Navigation';
+        $data['pageTitle']      = 'Navigation';
         // get data
-        $data['navigations'] = Navigation::with('children')->where('parent_id',0)->orderBy('order', 'asc')->paginate(10);
+        $data['navigations']    = Navigation::with('children')->where('parent_id',0)->orderBy('order', 'asc')->paginate(10);
+        $data['indent']         = '-- ';
         // render view
         return view('admin.navigations.index')->with($data);
     }

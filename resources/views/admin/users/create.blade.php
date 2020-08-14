@@ -4,17 +4,45 @@
 @endsection
 @section('content')    
 <div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title ">User Management</h4>
+        <ul class="breadcrumbs d-none d-md-block">
+            <li class="nav-home">
+                <a href="{{route('admin.dashboard')}}">
+                    <i class="flaticon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Administrator</a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('admin.users.index')}}">User</a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item text-primary">
+                Create
+            </li>
+        </ul>
+    </div>
     @include('layouts.alert')
     <div class="card">
-        <form method="POST" action="{{route('admin.users.store')}}">
+        <form method="POST" action="{{route('admin.users.store')}}" id="form">
             @csrf
             @method('POST')
-            <div class="card-header bg-white">
-                <div class="h4 text-primary">
-                    Create User
-                    <a href="{{route('admin.users.index')}}" class="float-right btn btn-outline-success btn-sm">
+            <div class="card-header d-flex d-justify-content-between">
+                <div class="card-title font-weight-bold">Create User</div>
+                <div class="ml-auto">
+                    <a href="{{route('admin.users.index')}}" class="btn btn-default btn-sm shadow">
                         <span class="btn-label">
-                            <i class="las la-angle-left"></i>
+                            <i class="fa fa-angle-left"></i>
                         </span>
                         Back
                     </a>
@@ -22,68 +50,62 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                        <label>Name</label>
-                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Your Name" value="{{old('name')}}" required="">
-                        @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group ">
+                            <label>Name*</label>
+                            <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Your Name" value="{{old('name')}}" required="">
+                            <label for="name" class="error form-text text-danger"> @error('name') {{ $message }} @enderror</label>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                        <label>Email</label>
-                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter Your Email" value="{{old('email')}}" required="" >
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group ">
+                            <label>Email*</label>
+                            <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter Your Email" value="{{old('email')}}" required="" >
+                            <label for="email" class="error form-text text-danger"> @error('email') {{ $message }} @enderror</label>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                        <label>Password</label>
-                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter Your Password" required="" >
-                        @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group ">
+                            <label>Password*</label>
+                            <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter Your Password" required >
+                            <label for="password" class="error form-text text-danger"> @error('password') {{ $message }} @enderror</label>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                        <label>Password Confirm</label>
-                        <input type="password" name="password-confirm" class="form-control  @error('password-confirm') is-invalid @enderror" placeholder="Enter Your Password Confirm" required="">
-                        @error('password-confirm')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group ">
+                            <label>Password Confirm*</label>
+                            <input type="password" name="password-confirm" class="form-control  @error('password-confirm') is-invalid @enderror" placeholder="Enter Your Password Confirm" required equalTo="#password">
+                            <label for="password-confirm" class="error form-text text-danger"> @error('password-confirm') {{ $message }} @enderror</label>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                        <label>Role</label>
-                        <select name="role[]" id="" multiple class="form-control select2" multiple data-placeholder="Choose Role" data-allow-clear="1">
-                            @foreach ($roles as $role)
-                            <option value="{{$role->id}}" {{in_array($role->id, old('role') ?? array()) ? 'selected' : '' }}>{{$role->name}}</option>
-                            @endforeach
-                        </select>
-                        @error('role')
-                            <small class="text-danger" >
-                                <strong>{{ $message }}</strong>
-                            </small>
-                        @enderror
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="form-group ">
+                            <label>Role*</label>
+                            <select name="role[]" id="roles" class="form-control select2 w-100" multiple  data-placeholder="Choose Roles" data-allow-clear="1" required >
+                                @foreach ($roles as $role)
+                                <option value="{{$role->id}}" {{in_array($role->id, old('role') ?? array()) ? 'selected' : '' }}>{{$role->name}}</option>
+                                @endforeach
+                            </select>
+                            <label for="roles" class="error form-text text-danger"> @error('roles') {{ $message }} @enderror</label>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card-footer text-right bg-white">
-                <button class="btn btn-primary">Submit</button>
+            <div class="card-footer ">
+                <button class="btn btn-primary">Save</button>
             </div>
         </form>
     </div>
 </div>
 @endsection
-@push('js')
-    
+@push('scripts')
+<script>
+    $(document).ready(function(){
+        $("#form").validate();
+    });
+</script>
 @endpush

@@ -4,28 +4,49 @@
 @endsection
 @section('content')
 <div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Roles</h4>
+        <ul class="breadcrumbs d-none d-md-block">
+            <li class="nav-home">
+                <a href="{{route('admin.dashboard')}}">
+                    <i class="flaticon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Administrator</a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item text-primary">
+                Roles
+            </li>
+        </ul>
+    </div>
     @include('layouts.alert')
     <div class="card">
-        <div class="card-header bg-white">
-            <div class="h4 text-primary">{{$pageTitle}} 
-                @can('create-role')    
-                <a href="{{route('admin.roles.create')}}" class="float-right btn btn-outline-primary  btn-sm">
+        <div class="card-header d-flex d-justify-content-between">
+            <div class="card-title font-weight-bold">Role List</div>
+            <div class="ml-auto">
+                <a href="{{route('admin.roles.create')}}" class="btn btn-primary btn-sm shadow">
                     <span class="btn-label">
-                        <i class="las la-plus"></i>
+                        <i class="fa fa-plus"></i>
                     </span>
-                    Create {{$pageTitle}}
+                    Create Role
                 </a>
-                @endcan
             </div>
         </div>
-        <div class="card-body p-0">
+        <div class="card-body p-0 ">
             <div class="table-responsive">
-                <table class="table table-stripped">
-                    <thead class="bg-light">
+                <table class="table table-head-bg-primary m-0">
+                    <thead>
                         <tr>
-                            <th scope="col" width="20%"class="text-primary">#</th>
-                            <th scope="col" width="50%"class="text-primary">Name</th>
-                            <th scope="col" width="30%"class="text-primary">Action</th>
+                            <th scope="col" width="20%" >#</th>
+                            <th scope="col" width="50%" >Name</th>
+                            <th scope="col" width="30%" >Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,14 +56,14 @@
                             <td>{{$role->name}}</td>
                             <td>
                                 @can('update-role')    
-                                <a href="{{route('admin.roles.edit',$role->id)}}" class="btn"  data-toggle="tooltip" data-placement="top" title="Edit Role">
-                                    <i class="la la-pencil-alt" ></i>
+                                <a class="btn btn-success btn-sm shadow" href="{{route('admin.roles.edit',$role->id)}}" data-toggle="tooltip" data-placement="top" title="Edit Role"> 
+                                    <i class="fa fa-pencil-alt "></i>
                                 </a>
                                 @endcan
                                 @can('delete-role')
                                 <span data-toggle="modal" data-target="#DeleteModal">
-                                    <a href="javascript:;" onclick="deleteData({{$role->id}})" class="btn"  data-toggle="tooltip" data-placement="top" title="Delete Role ">
-                                        <i class="las la-trash" ></i>
+                                    <a class="btn btn-danger btn-sm shadow" href="javascript:;" onclick="deleteData({{$role->id}})" data-toggle="tooltip" data-placement="top" title="Delete Role"> 
+                                        <i class="fa fa-trash"></i>
                                     </a>
                                 </span>
                                 @endcan
@@ -115,3 +136,4 @@
     }
 </script>
 @endpush
+

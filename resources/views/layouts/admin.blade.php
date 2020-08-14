@@ -1,42 +1,47 @@
 @extends('layouts.base')
 @push('styles')
-<link rel="stylesheet" href="{{asset('css/style.css')}}">
-<link rel="stylesheet" href="https://startbootstrap.github.io/startbootstrap-simple-sidebar/css/simple-sidebar.css">
-<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css">
-
+<link rel="stylesheet" href="{{asset('atlantis/fonts/line-awesome/line-awesome.min.css')}}">
+<link rel="stylesheet" href="{{asset('atlantis/css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{asset('atlantis/css/atlantis.css')}}">
+<link rel="stylesheet" href="{{asset('atlantis/css/pace.css')}}">
+<link rel="stylesheet" href="{{asset('atlantis/plugins/select2/select2.full.css')}}">
+<script src="{{asset('atlantis/js/pace.min.js')}}"></script>
+<script src="{{asset('atlantis/plugins/webfont/webfont.min.js')}}"></script>
+<script>
+    WebFont.load({
+        google: {"families":["Lato:300,400,700,900"]},
+        custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons","line-awesome"], urls: ['{{asset("atlantis/css/fonts.min.css")}}']},
+        active: function() {
+            sessionStorage.fonts = true;
+        }
+    });
+</script>
 @endpush
 @section('body')
-<div class="d-flex" id="wrapper">
+<div class="wrapper">
+    <x-layouts.navigation></x-layouts.navigation>
     <x-layouts.sidebar></x-layouts.sidebar>
-    <div id="page-content-wrapper" class="h-100">
-        <x-layouts.navigation></x-layouts>
-        <div class="m-4">
+    <div class="main-panel">
+        <div class="content mt-0">
             @yield('content')
         </div>
+        @include('layouts.admin.footer')
     </div>
 </div>
 @endsection
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script src="{{ asset('atlantis/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js')}}"></script>
+<script src="{{ asset('atlantis/plugins/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js')}}"></script>
+<script src="{{ asset('atlantis/plugins/jquery-scrollbar/jquery.scrollbar.min.js')}}"></script>
+<script src="{{ asset('atlantis/plugins/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+<script src="{{ asset('atlantis/plugins/select2/select2.full.min.js')}}"></script>
+<script src="{{ asset('atlantis/js/atlantis.min.js')}}"></script>
 <script>
     $(document).ready(function() {
-        $(function () {
-        $('select').each(function () {
-            $(this).select2({
-                theme: 'bootstrap4',
-                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-                placeholder: $(this).data('placeholder'),
-                allowClear: Boolean($(this).data('allow-clear')),
-                });
-            });
+        $('.select2').select2({
+            theme: "bootstrap",
         });
-
-    });
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
     });
 </script>
 @endpush

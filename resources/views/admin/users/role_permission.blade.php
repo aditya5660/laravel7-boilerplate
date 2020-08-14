@@ -1,34 +1,49 @@
 @extends('layouts.admin')
 @section('title')
-    User Management
+    Permissions
 @endsection
 @section('content')
 <div class="page-inner">
-    <div class="page-header d-none d-sm-flex">
-        <h4 class="page-title">{{$pageTitle}}</h4>
+    <div class="page-header ">
+        <h4 class="page-title">Permissions</h4>
+        <ul class="breadcrumbs d-none d-md-block">
+            <li class="nav-home">
+                <a href="{{route('admin.dashboard')}}">
+                    <i class="flaticon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Administrator</a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item text-primary">
+                Permissions
+            </li>
+        </ul>
     </div>
     @include('layouts.alert')
     <div class="row">
         <div class="col-md-4 col-12">
             <div class="card">
-                <form action="{{ route('admin.users.add_permission') }}" method="post">
+                <form action="{{ route('admin.users.add_permission') }}" method="post" id="form">
                     <div class="card-header bg-white">
-                        <div class="card-title">Add New Permission</div>
+                        <div class="card-title font-weight-bold">Add New Permission</div>
                     </div>
                     <div class="card-body">
                         @csrf
                         <div class="form-group">
                             <label for="">Name</label>
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" required>
-                            @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                            <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" required>
+                            <label for="name" class="error form-text text-danger"> @error('name') {{ $message }} @enderror</label>
                         </div>
                     </div>
                     <div class="card-footer text-right bg-white">
-                        <button class="btn btn-primary" type="submit">Add New</button>
+                        <button class="btn btn-primary" type="submit">Save</button>
                     </div>
                 </form>
             </div>
@@ -36,14 +51,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header bg-white">
-                    <div class="card-title"> Set Permission to Role
-                        <a href="{{route('admin.users.index')}}" class="float-right btn btn-outline-success btn-sm">
-                            <span class="btn-label">
-                                <i class="las la-angle-left"></i>
-                            </span>
-                            Back
-                        </a>
-                    </div>
+                    <div class="card-title font-weight-bold"> Set Permission to Role</div>
                 </div>    
                 <div class="card-body">
                     <form action="{{ route('admin.users.roles_permission') }}" method="GET">
@@ -70,7 +78,6 @@
                                 @php $no = 1; @endphp
                                 <ul class="list-group">
                                 @foreach ($permissions as $key => $row)
-                                    
                                     <li class="list-group-item d-flex justify-content-between">
                                         <div class="form-check">
                                             <label class="form-check-label">
@@ -141,5 +148,10 @@
     {
         $("#deleteForm").submit();
     }
+</script>
+<script>
+    $(document).ready(function(){
+        $("#form").validate();
+    });
 </script>
 @endpush

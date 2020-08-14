@@ -1,4 +1,4 @@
-<div class="py-1">
+<ul class="nav nav-collapse">
     @foreach ($childrens as $item)
     @php
         if (count($item->children)) {
@@ -20,9 +20,10 @@
         }
         $selected = url()->current() == url($item->url) ? 'active' : '';
     @endphp
-    <a class="px-4 list-group-item list-group-item-action border-0 text-secondary {{$selected}}" href="{{$url_parent}}">
-        <i class="mr-1 la la-dot-circle"></i>
-        {{$item->name}}
-    </a>
+    <li class="{{$selected}}" >
+        <a href="{{$url_parent }}" >
+            <span class="sub-item">{{$item->name}}</span>
+        </a>
+    </li>
     @endforeach
-</div>
+</ul>

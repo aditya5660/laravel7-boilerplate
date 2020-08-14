@@ -1,57 +1,79 @@
 @extends('layouts.admin')
-@section('title', $pageTitle)
+@section('title')
+    Navigation
+@endsection
 @section('content')
 <div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Navigation</h4>
+        <ul class="breadcrumbs d-none d-md-block">
+            <li class="nav-home">
+                <a href="{{route('admin.dashboard')}}">
+                    <i class="flaticon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Administrator</a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item text-primary">
+                Navigation
+            </li>
+        </ul>
+    </div>
     @include('layouts.alert')
     <div class="card">
-        <div class="card-header bg-white">
-            <div class="h4 text-primary">{{$pageTitle}} 
-                @can('create-navigation', Model::class)    
-                <a href="{{route('admin.navigations.create')}}" class="float-right btn btn-outline-primary  btn-sm">
+        <div class="card-header d-flex d-justify-content-between">
+            <div class="card-title font-weight-bold">Navigation List</div>
+            <div class="ml-auto">
+                <a href="{{route('admin.navigations.create')}}" class="btn btn-primary btn-sm shadow">
                     <span class="btn-label">
-                        <i class="las la-plus"></i>
+                        <i class="fa fa-plus"></i>
                     </span>
-                    Create {{$pageTitle}}
+                    Create Navigation
                 </a>
-                @endcan
             </div>
         </div>
-        <div class="card-body p-0">
+        <div class="card-body p-0 ">
             <div class="table-responsive">
-                <table class="table table-stripped">
-                    <thead class="bg-light">
+                <table class="table table-head-bg-primary m-0">
+                    <thead>
                         <tr>
-                            <th scope="col" width="5%"class="text-primary">Icon</th>
-                            <th scope="col" width="30%"class="text-primary">Name</th>
-                            <th scope="col" width="30%"class="text-primary">URL</th>
-                            <th scope="col" width="30%"class="text-primary">Action</th>
+                            <th scope="col" width="5%"  >Icon</th>
+                            <th scope="col" width="30%" >Name</th>
+                            <th scope="col" width="30%" >URL</th>
+                            <th scope="col" width="30%" >Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php $indent = '-- ' @endphp
-                        @forelse ($navigations as $item)
-                            <tr>
-                                <td><i class="{{$item->icon}}"></i></td>
-                                <td>{{$indent }} {{$item->name}}</td>
-                                <td>{{$item->url}}</td>
-                                <td>
-                                    @can('update-navigation')    
-                                    <a href="{{route('admin.navigations.edit',$item->id)}}" class="btn"  data-toggle="tooltip" data-placement="top" title="Edit Navigation">
-                                        <i class="la la-pencil-alt" ></i>
+                        @forelse ($navigations as $navigation)
+                        <tr>
+                            <td><i class="{{$navigation->icon}}"></i></td>
+                            <td>{{ $indent }} {{$navigation->name}}</td>
+                            <td>{{$navigation->url}}</td>
+                            <td>
+                                @can('update-navigation')
+                                <a class="btn btn-success btn-sm shadow" href="{{route('admin.navigations.edit',$navigation->id)}}" data-toggle="tooltip" data-placement="top" title="Edit Navigation"> 
+                                    <i class="fa fa-pencil-alt "></i>
+                                </a>
+                                @endcan
+                                @can('delete-navigation')    
+                                <span data-toggle="modal" data-target="#DeleteModal">
+                                    <a class="btn btn-danger btn-sm shadow" href="javascript:;" onclick="deleteData({{$navigation->id}})" data-toggle="tooltip" data-placement="top" title="Delete Navigation"> 
+                                        <i class="fa fa-trash"></i>
                                     </a>
-                                    @endcan
-                                    @can('delete-navigation')    
-                                    <span data-toggle="modal" data-target="#DeleteModal">
-                                        <a href="javascript:;" onclick="deleteData({{$item->id}})" class="btn"  data-toggle="tooltip" data-placement="top" title="Delete Navigation ">
-                                            <i class="las la-trash" ></i>
-                                        </a>
-                                    </span>
-                                    @endcan
-                                </td>
-                            </tr>
-                            @if (count($item->children))
-                                @include('admin.navigations.child-menu',['childrens'=> $item->children ,'indent' => $indent])
-                            @endif
+                                </span>
+                                @endcan
+                            </td>
+                        </tr>
+                        @if (count($navigation->children))
+                            @include('admin.navigations.child-menu',['childrens'=> $navigation->children ,'indent' => $indent])
+                        @endif
                         @empty
                         <tr>
                             <td colspan="4" class=" text-center text-muted">
@@ -66,6 +88,9 @@
             </div>
         </div>
         <div class="card-footer d-flex justify-content-between bg-white">
+            <div>Showing {{($navigations->currentpage()-1)*$navigations->perpage()+1}} to {{$navigations->currentpage()*$navigations->perpage()}}
+                of  {{$navigations->total()}} entries
+            </div>
             <nav class="d-inline-block ">
                 {{ $navigations->links() }}
             </nav>
@@ -116,3 +141,4 @@
     }
 </script>
 @endpush
+

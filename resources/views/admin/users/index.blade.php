@@ -4,30 +4,51 @@
 @endsection
 @section('content')
 <div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title ">User Management</h4>
+        <ul class="breadcrumbs d-none d-md-block">
+            <li class="nav-home">
+                <a href="{{route('admin.dashboard')}}">
+                    <i class="flaticon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="#">Administrator</a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item text-primary">
+                User
+            </li>
+        </ul>
+    </div>
     @include('layouts.alert')
     <div class="card">
-        <div class="card-header bg-white">
-            <div class="h4 text-primary">{{$pageTitle}} 
-                @can('create-user')    
-                <a href="{{route('admin.users.create')}}" class="float-right btn btn-outline-primary  btn-sm">
+        <div class="card-header d-flex d-justify-content-between">
+            <div class="card-title font-weight-bold">User List</div>
+            <div class="ml-auto">
+                <a href="{{route('admin.users.create')}}" class="btn btn-primary btn-sm shadow">
                     <span class="btn-label">
-                        <i class="las la-plus"></i>
+                        <i class="fa fa-plus"></i>
                     </span>
-                    Create {{$pageTitle}}
+                    Create User
                 </a>
-                @endcan
             </div>
         </div>
-        <div class="card-body px-0 py-0">
+        <div class="card-body p-0 ">
             <div class="table-responsive">
-                <table class="table mt-0 pt-0 table-hover">
-                    <thead class="bg-light">
+                <table class="table table-head-bg-primary m-0">
+                    <thead>
                         <tr>
-                            <th scope="col" class="text-primary">#</th>
-                            <th scope="col" class="text-primary">Full Name</th>
-                            <th scope="col" class="text-primary">Email</th>
-                            <th scope="col" class="text-primary">Roles</th>
-                            <th scope="col" class="text-primary">Action</th>
+                            <th scope="col" >#</th>
+                            <th scope="col" >Full Name</th>
+                            <th scope="col" >Email</th>
+                            <th scope="col" >Roles</th>
+                            <th scope="col" >Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,14 +64,14 @@
                             </td>
                             <td>
                                 @can('update-user')
-                                <a href="{{route('admin.users.edit',$user->id)}}" class="btn"  data-toggle="tooltip" data-placement="top" title="Edit Users">
-                                    <i class="la la-pencil-alt" ></i>
+                                <a class="btn btn-success btn-sm shadow" href="{{route('admin.users.edit',$user->id)}}" data-toggle="tooltip" data-placement="top" title="Edit Users"> 
+                                    <i class="fa fa-pencil-alt "></i>
                                 </a>
                                 @endcan
                                 @can('delete-user')
                                 <span data-toggle="modal" data-target="#DeleteModal">
-                                    <a href="javascript:;" onclick="deleteData({{$user->id}})" class="btn"  data-toggle="tooltip" data-placement="top" title="Delete Users ">
-                                        <i class="las la-trash" ></i>
+                                    <a class="btn btn-danger btn-sm shadow" href="javascript:;" onclick="deleteData({{$user->id}})" data-toggle="tooltip" data-placement="top" title="Delete Users"> 
+                                        <i class="fa fa-trash"></i>
                                     </a>
                                 </span>
                                 @endcan
