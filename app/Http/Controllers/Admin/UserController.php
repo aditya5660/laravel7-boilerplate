@@ -27,8 +27,6 @@ class UserController extends Controller
         if (!request()->user()->can('read-user')) {
             abort(403);
         }
-        // set pageTitle
-        $data['pageTitle'] = 'Users';
         // get data
         $data['users'] = User::with('roles')->paginate(10);
         // render View
@@ -42,8 +40,6 @@ class UserController extends Controller
         if (!request()->user()->can('create-user')) {
             abort(403);
         }
-        // set pageTitle
-        $data['pageTitle'] = 'Add User';
         // get data
         $data['roles'] = Role::all();
         /// render View
@@ -77,8 +73,6 @@ class UserController extends Controller
         if (!request()->user()->can('update-user')) {
             abort(403);
         }
-        // set pageTitle
-        $data['pageTitle'] = 'Edit User';
         // get data
         $data['roles'] = Role::all();
         $data['user']  = $user;
@@ -145,7 +139,6 @@ class UserController extends Controller
             $permissions = Permission::all();
         }
         return view('admin.users.role_permission')->with([
-            'pageTitle' => $pageTitle,
             'roles' => $roles, 
             'permissions' => $permissions, 
             'hasPermission' => $hasPermission
@@ -168,9 +161,9 @@ class UserController extends Controller
     public function setRolePermission(Request $request, $role)
     {
         //select role berdasarkan namanya
-        $role = Role::findByName($role);   
+        $roles = Role::findByName($role);   
         //kemudian di-assign kembali sehingga tidak terjadi duplicate data
-        $role->syncPermissions($request->permission);
+        $roles->syncPermissions($request->permission);
         return redirect()->back()->with(['success' => 'Permission to Role Saved!']);
     }
 

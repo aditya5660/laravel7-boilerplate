@@ -22,8 +22,6 @@ class NavigationController extends Controller
         if (!request()->user()->can('read-navigation')) {
             abort(403);
         }
-        // set page title
-        $data['pageTitle']      = 'Navigation';
         // get data
         $data['navigations']    = Navigation::with('children')->where('parent_id',0)->orderBy('order', 'asc')->paginate(10);
         $data['indent']         = '-- ';
@@ -37,8 +35,6 @@ class NavigationController extends Controller
         if (!request()->user()->can('create-navigation')) {
             abort(403);
         }
-        // set page title
-        $data['pageTitle'] = 'Create Navigation';
         // get data
         $data['navigations'] = Navigation::where('parent_id',0)->get();
         $data['permissions'] = Permission::all();
@@ -72,8 +68,6 @@ class NavigationController extends Controller
         if (!request()->user()->can('update-navigation')) {
             abort(403);
         }
-        // set pageTitle
-        $data['pageTitle']  = 'Edit Navigation';
         // get data
         $data['navigation']  = $navigation;
         $data['navigations'] = Navigation::where('parent_id',0)->get();

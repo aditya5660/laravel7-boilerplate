@@ -9,9 +9,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Set Page Title
-        $data['pageTitle'] = 'Dashboard';
+        // check user permission
+        if (!request()->user()->can('read-dashboard')) {
+            abort(403);
+        }
         // Render View
-        return view('admin.dashboard.index')->with($data);
+        return view('admin.dashboard.index');
     }
 }

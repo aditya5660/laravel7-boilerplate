@@ -20,8 +20,6 @@ class RoleController extends Controller
         if (!request()->user()->can('read-role')) {
             abort(403);
         }
-        // set page title
-        $data['pageTitle'] = 'Role';
         // get data
         $data['roles'] = Role::paginate(10);
         // render view
@@ -34,12 +32,8 @@ class RoleController extends Controller
         if (!request()->user()->can('create-role')) {
             abort(403);
         }
-        // set page title
-        $pageTitle = 'Add Role';
         // render view
-        return view('admin.roles.create')->with([
-            'pageTitle' => $pageTitle,
-        ]);
+        return view('admin.roles.create');
     }
 
     public function store(RoleRequest $request)
@@ -62,8 +56,6 @@ class RoleController extends Controller
         if (!request()->user()->can('update-role')) {
             abort(403);
         }
-        // set pageTitle
-        $data['pageTitle']  = 'Edit Role';
         // get data
         $data['role']       = $role;
         /// render View

@@ -10,8 +10,6 @@ class PermissionController extends Controller
 {
     public function index()
     {
-        // set page title
-        $data['pageTitle'] = "Permission";
         // get data
         $data['permissions'] = Permission::paginate(20);
         // render view
